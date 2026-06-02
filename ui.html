@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Binance Futures Bot — UI</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1e28;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #f0b90b;
+    --accent2: #e6a800;
+    --green: #0ecb81;
+    --red: #f6465d;
+    --blue: #1890ff;
+    --text: #eaecef;
+    --muted: #848e9c;
+    --muted2: #5e6673;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --font: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--accent);
+  }
+
+  .logo svg { width: 22px; height: 22px; }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .mode-badge {
+    background: rgba(240,185,11,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(240,185,11,0.25);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── Main layout ── */
+  main {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 0;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ── Left panel ── */
+  .panel-left {
+    border-right: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted2);
+    margin-bottom: 8px;
+  }
+
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+
+  /* Symbol selector */
+  .symbol-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .symbol-chip {
+    background: rgba(240,185,11,0.1);
+    border: 1px solid rgba(240,185,11,0.2);
+    color: var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .symbol-chip.active, .symbol-chip:hover {
+    background: rgba(240,185,11,0.2);
+    border-color: var(--accent);
+  }
+
+  /* Price display */
+  .price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .price-main {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--text);
+  }
+
+  .price-change {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .price-change.up { background: rgba(14,203,129,0.12); color: var(--green); }
+  .price-change.down { background: rgba(246,70,93,0.12); color: var(--red); }
+
+  .price-sub { font-size: 11px; color: var(--muted); }
+
+  /* Side toggle */
+  .side-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .side-btn {
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+    background: transparent;
+    color: var(--muted);
+  }
+
+  .side-btn.buy.active {
+    background: rgba(14,203,129,0.15);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .side-btn.sell.active {
+    background: rgba(246,70,93,0.15);
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .side-btn:hover { border-color: var(--border2); color: var(--text); }
+
+  /* Order type */
+  .type-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .type-btn {
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    background: transparent;
+    letter-spacing: 0.3px;
+    transition: all 0.15s;
+  }
+
+  .type-btn.active, .type-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(240,185,11,0.08);
+  }
+
+  /* Form fields */
+  .field-group { margin-bottom: 12px; }
+
+  .field-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .field-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .field-input:focus { border-color: rgba(240,185,11,0.4); }
+  .field-input::placeholder { color: var(--muted2); }
+
+  .field-input.hidden-field { display: none; }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: none;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.15s;
+    margin-top: 4px;
+  }
+
+  .submit-btn.buy-btn {
+    background: var(--green);
+    color: #000;
+  }
+
+  .submit-btn.sell-btn {
+    background: var(--red);
+    color: #fff;
+  }
+
+  .submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); opacity: 1; }
+
+  /* Summary row */
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .val { color: var(--text); font-weight: 500; }
+
+  /* ── Right panel ── */
+  .panel-right {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-right-top {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-cell {
+    background: var(--surface);
+    padding: 14px 18px;
+  }
+
+  .stat-label { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+  .stat-value { font-size: 16px; font-weight: 700; color: var(--text); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.yellow { color: var(--accent); }
+
+  /* Log panel */
+  .log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .log-title { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: var(--muted); }
+
+  .clear-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .clear-btn:hover { border-color: var(--border2); color: var(--text); }
+
+  .log-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+  }
+
+  .log-entry {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    animation: slideIn 0.2s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .log-entry-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .log-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-filled { background: rgba(14,203,129,0.15); color: var(--green); border: 1px solid rgba(14,203,129,0.2); }
+  .badge-new    { background: rgba(240,185,11,0.12); color: var(--accent); border: 1px solid rgba(240,185,11,0.2); }
+  .badge-buy    { background: rgba(14,203,129,0.1); color: var(--green); }
+  .badge-sell   { background: rgba(246,70,93,0.1); color: var(--red); }
+
+  .log-time { font-size: 10px; color: var(--muted2); }
+
+  .log-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .log-kv { }
+  .log-k { font-size: 10px; color: var(--muted2); margin-bottom: 1px; }
+  .log-v { font-size: 12px; color: var(--text); font-weight: 500; }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 48px 20px;
+    color: var(--muted2);
+    font-size: 12px;
+  }
+
+  .empty-icon { font-size: 28px; opacity: 0.3; margin-bottom: 4px; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 18px;
+    font-size: 13px;
+    animation: toastIn 0.2s ease;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 320px;
+  }
+
+  .toast.success { border-left: 3px solid var(--green); }
+  .toast.error   { border-left: 3px solid var(--red); }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+  /* Validation error */
+  .field-error { font-size: 10px; color: var(--red); margin-top: 3px; display: none; }
+  .field-input.error { border-color: rgba(246,70,93,0.4); }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 3v18h18"/>
+      <path d="m7 16 4-8 4 8"/>
+      <path d="m11 12 2-4 2 4"/>
+    </svg>
+    Futures Bot
+  </div>
+  <div class="header-right">
+    <span class="mode-badge">Mock Mode</span>
+    <div class="status-dot" title="Connected"></div>
+  </div>
+</header>
+
+<!-- Main -->
+<main>
+
+  <!-- Left: Order Form -->
+  <div class="panel-left">
+
+    <!-- Symbol picker -->
+    <div>
+      <div class="section-label">Market</div>
+      <div class="card">
+        <div class="symbol-row" id="symbolRow">
+          <button class="symbol-chip active" onclick="selectSymbol(this,'BTCUSDT')">BTC/USDT</button>
+          <button class="symbol-chip" onclick="selectSymbol(this,'ETHUSDT')">ETH/USDT</button>
+          <button class="symbol-chip" onclick="selectSymbol(this,'SOLUSDT')">SOL/USDT</button>
+        </div>
+        <div class="price-display">
+          <span class="price-main" id="priceMain">96,450.00</span>
+          <span class="price-change up" id="priceChange">+2.34%</span>
+        </div>
+        <div class="price-sub" id="priceSub">24h Vol: 1,842,301 USDT</div>
+      </div>
+    </div>
+
+    <!-- Order form -->
+    <div>
+      <div class="section-label">Place Order</div>
+      <div class="card">
+
+        <!-- BUY / SELL -->
+        <div class="side-toggle">
+          <button class="side-btn buy active" id="btnBuy" onclick="selectSide('BUY')">▲ BUY / LONG</button>
+          <button class="side-btn sell" id="btnSell" onclick="selectSide('SELL')">▼ SELL / SHORT</button>
+        </div>
+
+        <!-- Order type -->
+        <div class="type-row">
+          <button class="type-btn active" id="typeMarket" onclick="selectType('MARKET')">Market</button>
+          <button class="type-btn" id="typeLimit" onclick="selectType('LIMIT')">Limit</button>
+          <button class="type-btn" id="typeStop" onclick="selectType('STOP_LIMIT')">Stop-Limit</button>
+        </div>
+
+        <!-- Quantity -->
+        <div class="field-group">
+          <div class="field-label">
+            <span>Quantity (Base Asset)</span>
+          </div>
+          <input class="field-input" type="number" id="inputQty" placeholder="0.000" step="0.001" min="0" />
+          <div class="field-error" id="errQty">Quantity must be greater than 0</div>
+        </div>
+
+        <!-- Price (LIMIT / STOP_LIMIT) -->
+        <div class="field-group" id="groupPrice">
+          <div class="field-label"><span>Limit Price (USDT)</span></div>
+          <input class="field-input" type="number" id="inputPrice" placeholder="0.00" step="0.01" min="0" />
+          <div class="field-error" id="errPrice">Price must be greater than 0</div>
+        </div>
+
+        <!-- Stop Price (STOP_LIMIT only) -->
+        <div class="field-group" id="groupStop" style="display:none;">
+          <div class="field-label"><span>Stop / Trigger Price (USDT)</span></div>
+          <input class="field-input" type="number" id="inputStop" placeholder="0.00" step="0.01" min="0" />
+          <div class="field-error" id="errStop">Stop price must be greater than 0</div>
+        </div>
+
+        <!-- Time-in-force -->
+        <div class="field-group" id="groupTif" style="display:none;">
+          <div class="field-label"><span>Time-in-Force</span></div>
+          <select class="field-input" id="selectTif">
+            <option value="GTC">GTC — Good Till Cancelled</option>
+            <option value="IOC">IOC — Immediate or Cancel</option>
+            <option value="FOK">FOK — Fill or Kill</option>
+          </select>
+        </div>
+
+        <!-- Summary -->
+        <div style="margin: 12px 0; padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+          <div class="summary-row">
+            <span style="color: var(--muted);">Symbol</span>
+            <span class="val" id="sumSymbol">BTCUSDT</span>
+          </div>
+          <div class="summary-row">
+            <span style="color: var(--muted);">Side</span>
+            <span class="val" style="color: var(--green);" id="sumSide">BUY</span>
+          </div>
+          <div class="summary-row">
+            <span style="color: var(--muted);">Type</span>
+            <span class="val" id="sumType">MARKET</span>
+          </div>
+          <div class="summary-row">
+            <span style="color: var(--muted);">Est. Value</span>
+            <span class="val" id="sumValue">—</span>
+          </div>
+        </div>
+
+        <button class="submit-btn buy-btn" id="submitBtn" onclick="placeOrder()">
+          Place BUY Order
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Stats + Log -->
+  <div class="panel-right">
+
+    <!-- Stats bar -->
+    <div class="panel-right-top">
+      <div class="stat-cell">
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-value yellow" id="statTotal">0</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Filled</div>
+        <div class="stat-value green" id="statFilled">0</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Pending</div>
+        <div class="stat-value" id="statPending">0</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Volume (USDT)</div>
+        <div class="stat-value" id="statVolume">0.00</div>
+      </div>
+    </div>
+
+    <!-- Log header -->
+    <div class="log-header">
+      <span class="log-title">Order Log</span>
+      <button class="clear-btn" onclick="clearLog()">Clear</button>
+    </div>
+
+    <!-- Log body -->
+    <div class="log-body" id="logBody">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">📋</div>
+        <span>No orders yet. Place your first order.</span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const PRICES = { BTCUSDT: 96450, ETHUSDT: 3280, SOLUSDT: 148 };
+const CHANGES = { BTCUSDT: '+2.34%', ETHUSDT: '-0.87%', SOLUSDT: '+5.12%' };
+const VOLS = { BTCUSDT: '1,842,301', ETHUSDT: '924,150', SOLUSDT: '318,472' };
+
+let state = { symbol: 'BTCUSDT', side: 'BUY', type: 'MARKET', orders: [], filled: 0, pending: 0, volume: 0 };
+
+function selectSymbol(el, sym) {
+  state.symbol = sym;
+  document.querySelectorAll('.symbol-chip').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const p = PRICES[sym];
+  document.getElementById('priceMain').textContent = p.toLocaleString('en-US', { minimumFractionDigits: 2 });
+  const ch = CHANGES[sym];
+  const cEl = document.getElementById('priceChange');
+  cEl.textContent = ch;
+  cEl.className = 'price-change ' + (ch.startsWith('+') ? 'up' : 'down');
+  document.getElementById('priceSub').textContent = `24h Vol: ${VOLS[sym]} USDT`;
+  document.getElementById('sumSymbol').textContent = sym;
+  updateEstValue();
+}
+
+function selectSide(side) {
+  state.side = side;
+  document.getElementById('btnBuy').className = 'side-btn buy' + (side==='BUY' ? ' active' : '');
+  document.getElementById('btnSell').className = 'side-btn sell' + (side==='SELL' ? ' active' : '');
+  const btn = document.getElementById('submitBtn');
+  btn.className = 'submit-btn ' + (side==='BUY' ? 'buy-btn' : 'sell-btn');
+  btn.textContent = `Place ${side} Order`;
+  const sumSide = document.getElementById('sumSide');
+  sumSide.textContent = side;
+  sumSide.style.color = side==='BUY' ? 'var(--green)' : 'var(--red)';
+}
+
+function selectType(type) {
+  state.type = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('type' + (type==='STOP_LIMIT'?'Stop':type.charAt(0)+type.slice(1).toLowerCase())).classList.add('active');
+  document.getElementById('groupPrice').style.display = type==='MARKET' ? 'none' : 'block';
+  document.getElementById('groupStop').style.display = type==='STOP_LIMIT' ? 'block' : 'none';
+  document.getElementById('groupTif').style.display = type==='MARKET' ? 'none' : 'block';
+  document.getElementById('sumType').textContent = type;
+  updateEstValue();
+}
+
+function updateEstValue() {
+  const qty = parseFloat(document.getElementById('inputQty').value) || 0;
+  if (!qty) { document.getElementById('sumValue').textContent = '—'; return; }
+  const price = state.type==='MARKET' ? PRICES[state.symbol] :
+    (parseFloat(document.getElementById('inputPrice').value) || PRICES[state.symbol]);
+  const val = (qty * price).toFixed(2);
+  document.getElementById('sumValue').textContent = '$' + parseFloat(val).toLocaleString('en-US', {minimumFractionDigits:2});
+}
+
+document.getElementById('inputQty').addEventListener('input', updateEstValue);
+document.getElementById('inputPrice').addEventListener('input', updateEstValue);
+
+function validate() {
+  let ok = true;
+  const qty = parseFloat(document.getElementById('inputQty').value);
+  const qtyInput = document.getElementById('inputQty');
+  const errQty = document.getElementById('errQty');
+  if (!qty || qty <= 0) {
+    qtyInput.classList.add('error'); errQty.style.display='block'; ok = false;
+  } else { qtyInput.classList.remove('error'); errQty.style.display='none'; }
+
+  if (state.type !== 'MARKET') {
+    const price = parseFloat(document.getElementById('inputPrice').value);
+    const pInput = document.getElementById('inputPrice');
+    const errP = document.getElementById('errPrice');
+    if (!price || price <= 0) {
+      pInput.classList.add('error'); errP.style.display='block'; ok = false;
+    } else { pInput.classList.remove('error'); errP.style.display='none'; }
+  }
+
+  if (state.type === 'STOP_LIMIT') {
+    const sp = parseFloat(document.getElementById('inputStop').value);
+    const spInput = document.getElementById('inputStop');
+    const errSp = document.getElementById('errStop');
+    if (!sp || sp <= 0) {
+      spInput.classList.add('error'); errSp.style.display='block'; ok = false;
+    } else { spInput.classList.remove('error'); errSp.style.display='none'; }
+  }
+  return ok;
+}
+
+function placeOrder() {
+  if (!validate()) { showToast('Please fix validation errors.', 'error'); return; }
+
+  const qty = parseFloat(document.getElementById('inputQty').value);
+  const midPrice = PRICES[state.symbol];
+  const jitter = midPrice * (Math.random() * 0.001 - 0.0005);
+  const avgPrice = state.type==='MARKET' ? +(midPrice + jitter).toFixed(2) : null;
+  const limitPrice = state.type!=='MARKET' ? parseFloat(document.getElementById('inputPrice').value) : null;
+  const stopPrice = state.type==='STOP_LIMIT' ? parseFloat(document.getElementById('inputStop').value) : null;
+  const status = state.type==='MARKET' ? 'FILLED' : 'NEW';
+  const orderId = 4058060000 + Math.floor(Math.random() * 99999);
+  const tif = state.type!=='MARKET' ? document.getElementById('selectTif').value : null;
+  const now = new Date();
+  const ts = now.toTimeString().slice(0,8);
+
+  const order = { orderId, symbol: state.symbol, side: state.side, type: state.type, qty, avgPrice, limitPrice, stopPrice, status, tif, ts };
+  state.orders.unshift(order);
+
+  if (status==='FILLED') state.filled++;
+  else state.pending++;
+  state.volume += qty * (avgPrice || limitPrice || midPrice);
+
+  document.getElementById('statTotal').textContent = state.orders.length;
+  document.getElementById('statFilled').textContent = state.filled;
+  document.getElementById('statPending').textContent = state.pending;
+  document.getElementById('statVolume').textContent = state.volume.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  renderLog();
+  showToast(status==='FILLED' ? `✓ Order #${orderId} FILLED at $${avgPrice?.toLocaleString()}` : `⏳ Limit order #${orderId} placed — awaiting fill`, status==='FILLED'?'success':'');
+
+  document.getElementById('inputQty').value = '';
+  document.getElementById('inputPrice').value = '';
+  document.getElementById('inputStop').value = '';
+  document.getElementById('sumValue').textContent = '—';
+}
+
+function renderLog() {
+  const body = document.getElementById('logBody');
+  document.getElementById('emptyState').style.display = state.orders.length ? 'none' : 'flex';
+
+  const existing = body.querySelectorAll('.log-entry');
+  existing.forEach(e => e.remove());
+
+  state.orders.forEach(o => {
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    div.innerHTML = `
+      <div class="log-entry-header">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span class="log-badge ${o.side==='BUY'?'badge-buy':'badge-sell'}">${o.side}</span>
+          <span class="log-badge ${o.status==='FILLED'?'badge-filled':'badge-new'}">${o.status}</span>
+          <span style="font-size:11px;color:var(--muted);">${o.type}</span>
+        </div>
+        <span class="log-time">${o.ts}</span>
+      </div>
+      <div class="log-grid">
+        <div class="log-kv"><div class="log-k">Order ID</div><div class="log-v">#${o.orderId}</div></div>
+        <div class="log-kv"><div class="log-k">Symbol</div><div class="log-v">${o.symbol}</div></div>
+        <div class="log-kv"><div class="log-k">Quantity</div><div class="log-v">${o.qty}</div></div>
+        ${o.avgPrice ? `<div class="log-kv"><div class="log-k">Avg Price</div><div class="log-v" style="color:var(--green);">$${o.avgPrice.toLocaleString()}</div></div>` : ''}
+        ${o.limitPrice ? `<div class="log-kv"><div class="log-k">Limit Price</div><div class="log-v">$${o.limitPrice.toLocaleString()}</div></div>` : ''}
+        ${o.stopPrice ? `<div class="log-kv"><div class="log-k">Stop Price</div><div class="log-v">$${o.stopPrice.toLocaleString()}</div></div>` : ''}
+        ${o.tif ? `<div class="log-kv"><div class="log-k">TIF</div><div class="log-v">${o.tif}</div></div>` : ''}
+      </div>
+    `;
+    body.insertBefore(div, body.querySelector('.log-entry') || null);
+  });
+}
+
+function clearLog() {
+  state.orders = []; state.filled = 0; state.pending = 0; state.volume = 0;
+  document.getElementById('statTotal').textContent = '0';
+  document.getElementById('statFilled').textContent = '0';
+  document.getElementById('statPending').textContent = '0';
+  document.getElementById('statVolume').textContent = '0.00';
+  renderLog();
+}
+
+function showToast(msg, type='') {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+selectType('MARKET');
+</script>
+</body>
+</html>

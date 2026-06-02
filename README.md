@@ -4,6 +4,8 @@ A clean, production-structured Python CLI for placing orders on Binance Futures 
 Supports **live testnet** mode and **mock mode** — mock mode requires zero credentials and works from any region including India (where testnet.binancefuture.com is geo-restricted).
 
 ---
+## Screenshots
+![alt text](image.png)
 
 ## Features
 
