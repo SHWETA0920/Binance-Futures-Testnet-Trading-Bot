@@ -1,0 +1,24 @@
+2026-06-01 19:54:10 | INFO     | trading_bot | Logging initialised → logs/trading_bot_20260601.log
+2026-06-01 19:54:10 | INFO     | trading_bot.cli | Running in MOCK mode — simulated responses, no network calls.
+2026-06-01 19:54:10 | INFO     | trading_bot.mock_client | MockBinanceClient initialised — no network calls will be made. (testnet.binancefuture.com is geo-restricted in this region)
+2026-06-01 19:54:10 | INFO     | trading_bot.validators | Input validated → symbol=BTCUSDT side=BUY type=MARKET qty=0.001 price=None stop=None
+2026-06-01 19:54:10 | INFO     | trading_bot.orders | [MARKET] BUY BTCUSDT qty=0.001
+2026-06-01 19:54:10 | INFO     | trading_bot.mock_client | MOCK POST /fapi/v1/order  params={'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': '0.001'}
+2026-06-01 19:54:10 | INFO     | trading_bot.mock_client | MOCK Order response: {'orderId': 4058060026, 'symbol': 'BTCUSDT', 'status': 'FILLED', 'clientOrderId': 'mock_941768778424098', 'price': '0', 'avgPrice': '96564.08000000', 'origQty': '0.001', 'executedQty': '0.001', 'cumQuote': '96.56408', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'NONE', 'goodTillDate': 0, 'updateTime': 1780343650149}
+2026-06-01 19:54:10 | INFO     | trading_bot.orders | [MARKET] order placed → orderId=4058060026 status=FILLED
+2026-06-01 19:54:13 | INFO     | trading_bot | Logging initialised → logs/trading_bot_20260601.log
+2026-06-01 19:54:13 | INFO     | trading_bot.cli | Running in MOCK mode — simulated responses, no network calls.
+2026-06-01 19:54:13 | INFO     | trading_bot.mock_client | MockBinanceClient initialised — no network calls will be made. (testnet.binancefuture.com is geo-restricted in this region)
+2026-06-01 19:54:13 | INFO     | trading_bot.validators | Input validated → symbol=BTCUSDT side=SELL type=LIMIT qty=0.001 price=100000 stop=None
+2026-06-01 19:54:13 | INFO     | trading_bot.orders | [LIMIT] SELL BTCUSDT qty=0.001 price=100000 tif=GTC
+2026-06-01 19:54:13 | INFO     | trading_bot.mock_client | MOCK POST /fapi/v1/order  params={'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'LIMIT', 'quantity': '0.001', 'price': '100000', 'timeInForce': 'GTC'}
+2026-06-01 19:54:13 | INFO     | trading_bot.mock_client | MOCK Order response: {'orderId': 4058060031, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'mock_550695765830636', 'price': '100000', 'avgPrice': '0.00000000', 'origQty': '0.001', 'executedQty': '0', 'cumQuote': '0.0', 'timeInForce': 'GTC', 'type': 'LIMIT', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'LIMIT', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'NONE', 'goodTillDate': 0, 'updateTime': 1780343653569}
+2026-06-01 19:54:13 | INFO     | trading_bot.orders | [LIMIT] order placed → orderId=4058060031 status=NEW
+2026-06-01 19:54:13 | INFO     | trading_bot | Logging initialised → logs/trading_bot_20260601.log
+2026-06-01 19:54:13 | INFO     | trading_bot.cli | Running in MOCK mode — simulated responses, no network calls.
+2026-06-01 19:54:13 | INFO     | trading_bot.mock_client | MockBinanceClient initialised — no network calls will be made. (testnet.binancefuture.com is geo-restricted in this region)
+2026-06-01 19:54:13 | INFO     | trading_bot.validators | Input validated → symbol=ETHUSDT side=BUY type=STOP_LIMIT qty=0.01 price=3200 stop=3250
+2026-06-01 19:54:13 | INFO     | trading_bot.orders | [STOP_LIMIT] BUY ETHUSDT qty=0.01 price=3200 stopPrice=3250
+2026-06-01 19:54:13 | INFO     | trading_bot.mock_client | MOCK POST /fapi/v1/order  params={'symbol': 'ETHUSDT', 'side': 'BUY', 'type': 'STOP', 'quantity': '0.01', 'price': '3200', 'stopPrice': '3250', 'timeInForce': 'GTC'}
+2026-06-01 19:54:13 | INFO     | trading_bot.mock_client | MOCK Order response: {'orderId': 4058060013, 'symbol': 'ETHUSDT', 'status': 'NEW', 'clientOrderId': 'mock_297986857565888', 'price': '3200', 'avgPrice': '0.00000000', 'origQty': '0.01', 'executedQty': '0', 'cumQuote': '0.0', 'timeInForce': 'GTC', 'type': 'STOP', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '3250', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'STOP', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'NONE', 'goodTillDate': 0, 'updateTime': 1780343653732}
+2026-06-01 19:54:13 | INFO     | trading_bot.orders | [STOP_LIMIT] order placed → orderId=4058060013 status=NEW

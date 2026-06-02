@@ -1,0 +1,8 @@
+2025-07-14 10:25:44 | INFO     | trading_bot | Logging initialised → logs/trading_bot_20250714.log
+2025-07-14 10:25:44 | INFO     | trading_bot.client | BinanceClient initialised (base_url=https://testnet.binancefuture.com)
+2025-07-14 10:25:44 | INFO     | trading_bot.validators | Input validated → symbol=BTCUSDT side=SELL type=LIMIT qty=0.001 price=100000 stop=None
+2025-07-14 10:25:44 | INFO     | trading_bot.orders | [LIMIT] SELL BTCUSDT qty=0.001 price=100000 tif=GTC
+2025-07-14 10:25:44 | INFO     | trading_bot.client | POST /fapi/v1/order  params={'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'LIMIT', 'quantity': '0.001', 'price': '100000', 'timeInForce': 'GTC', 'timestamp': 1752486344782}
+2025-07-14 10:25:44 | DEBUG    | trading_bot.client | HTTP POST https://testnet.binancefuture.com/fapi/v1/order → 200
+2025-07-14 10:25:44 | INFO     | trading_bot.client | Order response: {'orderId': 4058071834, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'web_P3rLmZ2wWs5nCtMuKqpR', 'price': '100000', 'avgPrice': '0', 'origQty': '0.001', 'executedQty': '0', 'cumQuote': '0', 'timeInForce': 'GTC', 'type': 'LIMIT', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'LIMIT', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'NONE', 'goodTillDate': 0, 'updateTime': 1752486344803}
+2025-07-14 10:25:44 | INFO     | trading_bot.orders | [LIMIT] order placed → orderId=4058071834 status=NEW

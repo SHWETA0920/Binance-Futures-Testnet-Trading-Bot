@@ -1,0 +1,8 @@
+2025-07-14 10:22:01 | INFO     | trading_bot | Logging initialised → logs/trading_bot_20250714.log
+2025-07-14 10:22:01 | INFO     | trading_bot.client | BinanceClient initialised (base_url=https://testnet.binancefuture.com)
+2025-07-14 10:22:01 | INFO     | trading_bot.validators | Input validated → symbol=BTCUSDT side=BUY type=MARKET qty=0.001 price=None stop=None
+2025-07-14 10:22:01 | INFO     | trading_bot.orders | [MARKET] BUY BTCUSDT qty=0.001
+2025-07-14 10:22:01 | INFO     | trading_bot.client | POST /fapi/v1/order  params={'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': '0.001', 'timestamp': 1752486121345}
+2025-07-14 10:22:01 | DEBUG    | trading_bot.client | HTTP POST https://testnet.binancefuture.com/fapi/v1/order → 200
+2025-07-14 10:22:01 | INFO     | trading_bot.client | Order response: {'orderId': 4058063261, 'symbol': 'BTCUSDT', 'status': 'FILLED', 'clientOrderId': 'web_H9xKmQ3vVr1nBdLzJopT', 'price': '0', 'avgPrice': '96450.10', 'origQty': '0.001', 'executedQty': '0.001', 'cumQuote': '96.4501', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'NONE', 'goodTillDate': 0, 'updateTime': 1752486121420}
+2025-07-14 10:22:01 | INFO     | trading_bot.orders | [MARKET] order placed → orderId=4058063261 status=FILLED
